@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+#gridContainer {
+    display: grid;
+    grid-template-columns: repeat(var(--dimensions), 1fr);
+    grid-template-rows: repeat(var(--dimensions), 1fr);
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 500px;
+    max-height: 500px;
+    margin: 0 auto;
+}
+
+.cell {
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid black;
+    width: 100%; /* Set width to 100% of cell */
+    height: 5%; /* Set height to 100% of cell */
+}

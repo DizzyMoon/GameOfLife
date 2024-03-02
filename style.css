@@ -1,16 +1,36 @@
 body {
+    background-color: rgb(38, 33, 33);
     margin: 0;
     padding: 0;
 }
 
 h1 {
+    font-size: xx-large;
+    color: white;
     text-align: center;
 }
 
+#user-interface {
+    color:white;
+    font-size: x-large;
+    text-align: center;
+    justify-content: center;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+:root {
+    --cell-width: calc(20px / var(--dimensions));
+    --cell-height: calc(5px / var(--dimensions));
+}
+
 #gridContainer {
+    justify-content: center;
     display: grid;
-    grid-template-columns: repeat(var(--dimensions), 1fr);
-    grid-template-rows: repeat(var(--dimensions), 1fr);
+    grid-template-columns: repeat(var(--dimensions), 0fr);
+    grid-template-rows: repeat(var(--dimensions), 0fr);
     width: 90vmin;
     height: 90vmin;
     max-width: 500px;
@@ -19,9 +39,16 @@ h1 {
 }
 
 .cell {
+    color: rgb(195, 195, 152);
+    background-color: rgb(195, 195, 152);
     text-align: center;
     box-sizing: border-box;
     border: 1px solid black;
-    width: 100%; /* Set width to 100% of cell */
-    height: 5%; /* Set height to 100% of cell */
+    width: calc(1000px / var(--dimensions)); /* Set width to 100% of cell */
+    height: calc(900px / var(--dimensions));
+}
+
+.cell.alive {
+    color: black;
+    background-color: black;
 }

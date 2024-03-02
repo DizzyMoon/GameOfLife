@@ -1,16 +1,38 @@
 "use strict"
 
-window.addEventListener("DOMContentLoaded", start())
+let gameGrid = [];
 
-function start(){
+window.addEventListener("DOMContentLoaded", load())
 
-    let gameGrid = [];
-
+function load(){
     console.log("Javascript is running :)");
-    gameGrid = populateGrid(20);
+}
+
+function start() {
+    const user_interface = document.getElementById('user-interface');
+    user_interface.classList.add('hidden');
+    let dimensions = document.getElementById('dimensions').value;
+    gameGrid = populateGrid(dimensions);
+    gameGrid = addRandomValues(gameGrid, 0.2);
     console.log(gameGrid);
     console.log(countNeighbors(gameGrid, 1, 2));
-    createGridHTML(gameGrid);
+    createGridHTML(gameGrid)
+    setInterval(() => {
+        console.log("Tic")
+        gameOfLife();
+    }, 1000)
+}
+
+function addRandomValues(grid, probability){
+    const newGrid = []
+    for (let row = 0; row < grid.length; row++) {
+        const newRow = [];
+        for (let col = 0; col < grid[row].length; col++){
+            newRow.push(Math.random() < probability ? 1 : grid[row][col]);
+        }
+        newGrid.push(newRow);
+    }
+    return newGrid;
 }
 
 function populateGrid(dimensions) {
@@ -25,6 +47,16 @@ function populateGrid(dimensions) {
     return grid
 }
 
+function gameOfLife() {
+    let newGrid = gameGrid;
+    for (let row = 0; row < gameGrid.length; row++) {
+        for (let col = 0; col < gameGrid[row].length; col++){
+            newGrid = simulateCell(gameGrid, row, col);
+        }
+    }
+    createGridHTML(gameGrid);
+}
+
 function createGridHTML(gridData) {
     const gridContainer = document.getElementById('gridContainer');
     gridContainer.innerHTML = '';
@@ -37,22 +69,39 @@ function createGridHTML(gridData) {
             const cellValue = gridData[row][col];
             const cellDiv = document.createElement('div');
             cellDiv.className = 'cell';
-            cellDiv.textContent = cellValue;
+            if (cellValue == 1){
+                cellDiv.classList.add('alive');
+            } else {
+                cellDiv.classList.remove('alive');
+            }
+            //cellDiv.textContent = cellValue;
+            cellDiv.textContent = '_';
+            
             rowDiv.appendChild(cellDiv); // Append cell to row
         }
         gridContainer.appendChild(rowDiv); // Append row to grid container
     }
 }
 
-function simulateCell(grid, x, y){
-    let newGrid = grid;
-    let neighbors = countNeighbors(newGrid, x, y);
-    switch(neighbors){
-        case neighbors < 2 || neighbors > 3 : newGrid[x, y] = 0;
-        case 2 :;
-        case 3 : newGrid[x, y] = 1;
+function simulateCell(grid, x, y) {
+    const numRows = grid.length;
+    const numCols = grid[0].length;
+    // Count neighbors
+    let count = countNeighbors(grid, x, y);
+
+    let newGrid = gameGrid;
+
+    // Apply rules of the game
+    if (grid[x][y] === 1) {
+        if (count < 2 || count > 3) {
+            newGrid[x][y] = 0;
+        }
+    } else {
+        if (count === 3) {
+            newGrid[x][y] = 1;
+        }
     }
-    return newGrid
+    return newGrid;
 }
 
 function countNeighbors(grid, x, y) {

@@ -10,6 +10,8 @@ function load(){
 
 function start() {
     const user_interface = document.getElementById('user-interface');
+    const buttons = document.getElementById("buttons");
+    buttons.classList.remove('hidden');
     user_interface.classList.add('hidden');
     let dimensions = document.getElementById('dimensions').value;
     gameGrid = populateGrid(dimensions);
@@ -20,7 +22,17 @@ function start() {
     setInterval(() => {
         console.log("Tic")
         gameOfLife();
-    }, 1000)
+    }, 500)
+}
+
+function clearGrid(){
+    const dimensions = document.getElementById('dimensions').value;
+    gameGrid = [];
+    gameGrid = populateGrid(dimensions);
+}
+
+function randomizeButton(){
+    gameGrid = addRandomValues(gameGrid, 0.2);
 }
 
 function addRandomValues(grid, probability){
@@ -74,12 +86,28 @@ function createGridHTML(gridData) {
             } else {
                 cellDiv.classList.remove('alive');
             }
-            //cellDiv.textContent = cellValue;
             cellDiv.textContent = '_';
+
+            cellDiv.addEventListener('click', () => {
+                toggleAlive(cellDiv, row, col);
+            });
+
+            //cellDiv.textContent = cellValue;
+            
             
             rowDiv.appendChild(cellDiv); // Append cell to row
         }
         gridContainer.appendChild(rowDiv); // Append row to grid container
+    }
+}
+
+function toggleAlive(cellDiv, row, col) {
+    if (cellDiv.classList.contains('alive')){
+        cellDiv.classList.remove('alive')
+        gameGrid[row][col] = 0;
+    } else {
+        cellDiv.classList.add('alive');
+        gameGrid[row][col] = 1;
     }
 }
 

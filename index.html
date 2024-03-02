@@ -11,9 +11,16 @@
     <div id="user-interface">
         <p>Enter Grid Dimensions:</p>
         <form>
-            <input type="number" name="dimensions" id="dimensions">
-            <input type="button" onclick="start()" value="Submit">
+            <div class="input-group">
+                <div class="webflow-style-input"></div>
+                <input type="number" name="dimensions" id="dimensions">
+                <button type="button" class="button-85" onclick="start()">Submit</button>
+            </div>
         </form>
+    </div>
+    <div id="buttons" class="hidden">
+        <input type="button" class="button-85" value="Clear grid" onclick="clearGrid()">
+        <button class="button-85" onclick="randomizeButton()">Randomize Grid</button>
     </div>
     <div id="gridContainer">
     </div>

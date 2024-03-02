@@ -66,7 +66,7 @@ function gameOfLife() {
             newGrid = simulateCell(gameGrid, row, col);
         }
     }
-    createGridHTML(gameGrid);
+    createGridHTML(newGrid);
 }
 
 function createGridHTML(gridData) {
